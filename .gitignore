@@ -1,0 +1,15 @@
+# Build artifacts
+campus
+*.o
+*.out
+*.exe
+a.out
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*~
+
+# OS noise
+.DS_Store
