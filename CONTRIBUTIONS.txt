@@ -1,29 +1,38 @@
-CONTRIBUTIONS — MILESTONE 1
+CONTRIBUTIONS -- MILESTONE 1
+Smart Campus Navigation and Facility Analytics System (CSCE 2110)
 
-IMPORTANT: Replace the placeholders below with the actual names of all three
-team members and verify that the statements accurately describe the work
-each person completed. Do not claim work or commits that a member did not do.
+Each member owns one module end to end: the header, the implementation, that
+module's menu options in main.cpp, its test data, and the part of the
+documentation listed under their name.  Fill in "Work completed" with what you
+actually did -- a few concrete lines beat a paragraph of adjectives.
 
-Member A: [Full name]
-Modules owned: Facility record, custom ID hash table, facility loading,
-facility listing, and facility ID search.
-Work completed: [Describe actual work and meaningful commits.]
+Member A: Logan (MrSpaghatti) -- <add full name>
+Modules owned: Facility record, custom facility-ID hash table, file loading and
+validation (DataLoader), facility listing and ID search, main.cpp menu shell.
+Also owns README.txt and the hash-table section of design_document.txt.
+Work completed:
+  -
 
-Member B: [Full name]
-Modules owned: Campus graph, graph display/statistics, and BFS reachability.
-Work completed: [Describe actual work and meaningful commits.]
+Member B: Hoang Trung Le -- lehoangtrung-108
+Modules owned: Campus graph (adjacency list, undirected edges, display,
+degree counts) and BFS reachability; menu options 3, 4, 5; testdata/graph/.
+Also owns the graph section of design_document.txt.
+Work completed:
+  -
 
-Member C: [Full name]
-Modules owned: Department tree, department loading, insertion, search,
-hierarchy display, and preorder traversal.
-Work completed: [Describe actual work and meaningful commits.]
+Member C: Matthew Ojeh Jr. -- MatthewOjehJr
+Modules owned: Department general tree (insertion, case-insensitive search,
+indented hierarchy, preorder traversal); menu options 6, 7, 8, 9;
+testdata/tree/; test_results.txt.
+Work completed:
+  -
 
 SHARED WORK
-All members: requirements review, integration, main menu/file-loading
-coordination, testing, README/design documentation, and preparation for the
-demonstration. Edit this section to reflect the team's actual contributions.
+All members: reading the spec and the rubric, reviewing each other's pull
+requests before merge, running the full test list on the final build, and
+verifying the CELL compile before submission.
 
-TEAM REPOSITORY REQUIREMENT
-Add all three members as GitHub collaborators. Each member must make meaningful
-commits under their own GitHub account. The ZIP and GitHub repository must
-contain matching versions of the required M1 files.
+REPOSITORY
+github.com/MrSpaghatti/2110_project_2 -- one branch per member, merged to main
+through a pull request, so the commit history shows who built what.  The ZIP
+submitted on Canvas is created from the main branch at submission time.
