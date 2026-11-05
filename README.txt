@@ -29,6 +29,9 @@ Project2_M1/
   data/          Four sample-format starter data files
   testdata/
     collision/   Small custom dataset to demonstrate hash collisions
+    graph/       Graph/BFS test-case notes
+    tree/        Department-tree cases: unknown-parent, duplicate-name,
+                 root-only, empty, and sample
   README.txt
   CONTRIBUTIONS.txt
   design_document.txt
@@ -51,6 +54,11 @@ The Final-only menu features are intentionally not implemented in this M1
 package (for example, facility name/category search, shortest-path menu
 operation, postorder/level-order traversal, department statistics, and
 category/connectivity reports).
+
+MILESTONE 1 STATUS
+The full M1 menu is implemented. All nine tests recorded in test_results.txt
+were run on a local build and pass; testdata/tree/ holds the department-tree
+cases. CELL verification is the remaining step before submission.
 
 CELL CHECK
 Compile and run on a UNT CSE CELL machine well before the deadline. The
