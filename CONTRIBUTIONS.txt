@@ -25,7 +25,22 @@ Modules owned: Department general tree (insertion, case-insensitive search,
 indented hierarchy, preorder traversal); menu options 6, 7, 8, 9;
 testdata/tree/; test_results.txt.
 Work completed:
-  -
+  - Implemented include/DepartmentTree.h and src/DepartmentTree.cpp: owning
+    unique_ptr children with parent pointers, case-insensitive lookup, root
+    and parent validation, indented hierarchy display, and preorder traversal.
+  - Added menu options 6 (add), 7 (search), 8 (hierarchy) and 9 (preorder) in
+    src/main.cpp, including skipping the parent prompt while the tree is empty.
+  - Added testdata/tree/ as five complete four-file data directories:
+    unknown-parent, duplicate-name, root-only, empty, and sample.
+  - Built the project and ran all nine M1 tests, pasting the exact captured
+    output and PASS/FAIL into test_results.txt.
+
+BUILD UNBLOCK NOTE
+To produce a runnable build for the M1 test pass, Member C also filled the
+declarations in include/CampusGraph.h and include/DataLoader.h (matched to
+their existing .cpp files) and typed the menu shell plus options 1-5 in
+main.cpp. Those files are owned by Members A and B and still need their
+review; they are not claimed here as Member C's modules.
 
 SHARED WORK
 All members: reading the spec and the rubric, reviewing each other's pull
