@@ -50,7 +50,14 @@
 #include "HashTable.h"
 
 class DataLoader {
-    // type the declarations here, in the order listed above
+public:
+    static std::string trim(const std::string& value);
+    static std::vector<std::string> split(const std::string& line);
+    bool load(const std::string& dir,
+              std::vector<Facility>& facilities,
+              HashTable& table,
+              CampusGraph& graph,
+              DepartmentTree& tree) const;
 };
 
 #endif

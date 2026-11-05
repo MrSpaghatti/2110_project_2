@@ -6,7 +6,7 @@ single comment line so the loader prints a clean 0 accepted.
 
 Run one with:   ./campus testdata/tree/<folder>
 
-Create these four folders:
+Create these four folders (plus the sample folder listed at the end):
 
 1) unknown-parent/
    departments.txt:  University|NONE
@@ -23,8 +23,9 @@ Create these four folders:
 
 3) root-only/
    departments.txt:  University|NONE
-   expected: hierarchy shows one line, statistics 1 department / 1 leaf /
-   height 0 -- and searching the root shows parent None, 0 children, depth 0
+   expected: hierarchy and preorder each show one line, and searching the
+   root shows parent None, 0 children, depth 0 (department statistics are
+   Final-only, so no statistics output is expected in M1)
 
 4) empty/
    departments.txt:  # DepartmentName|ParentName

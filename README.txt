@@ -45,7 +45,7 @@ MILESTONE 1 MENU
 7 Search department
 8 Display department hierarchy
 9 Run preorder traversal
-10 Exit
+0 Exit
 
 The Final-only menu features are intentionally not implemented in this M1
 package (for example, facility name/category search, shortest-path menu
