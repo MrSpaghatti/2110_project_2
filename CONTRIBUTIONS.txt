@@ -36,11 +36,12 @@ Work completed:
     output and PASS/FAIL into test_results.txt.
 
 BUILD UNBLOCK NOTE
-To produce a runnable build for the M1 test pass, Member C also filled the
-declarations in include/CampusGraph.h and include/DataLoader.h (matched to
-their existing .cpp files) and typed the menu shell plus options 1-5 in
-main.cpp. Those files are owned by Members A and B and still need their
-review; they are not claimed here as Member C's modules.
+Member C briefly filled the declarations in include/CampusGraph.h and
+include/DataLoader.h to produce a runnable build for the M1 test pass. Those
+headers are owned by Members A and B, so the fills were reverted and the
+skeletons restored; Members A and B will type their own declarations. The
+menu shell and options 1-5 in main.cpp were also added to reach a runnable
+menu and remain subject to review by their owners.
 
 SHARED WORK
 All members: reading the spec and the rubric, reviewing each other's pull
