@@ -59,7 +59,28 @@
 #include <vector>
 
 class CampusGraph {
-    // type the declarations here, in the order listed above
+public:
+    static std::string normalize(const std::string& value);
+    int indexOf(const std::string& name) const;
+    bool addBuilding(const std::string& name);
+    bool addConnection(const std::string& a, const std::string& b,
+                       std::string& reason);
+    bool hasBuilding(const std::string& name) const;
+    std::string canonicalName(const std::string& name) const;
+    void display() const;
+    void displayDegrees() const;
+    void bfs(const std::string& start) const;
+    std::size_t buildingCount() const;
+    std::size_t connectionCount() const;
+
+private:
+    struct Vertex {
+        std::string name;
+        std::vector<int> neighbors;
+    };
+
+    std::vector<Vertex> vertices_;
+    std::size_t edges_ = 0;
 };
 
 #endif

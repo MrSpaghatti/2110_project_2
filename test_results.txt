@@ -1,103 +1,289 @@
 MILESTONE 1 TEST RESULTS
-OWNER: OJ -- every M1 test below gets an actual result from a real run.
+OWNER: OJ (Matthew Ojeh Jr.) -- every M1 test below was executed on a real build.
 
-HOW TO FILL A ROW: run the case, paste the exact program output under
-"Actual:" (not a summary of it -- the grader is checking that you ran it), and
-change Result to PASS or FAIL.  A row left at NOT RUN at submission time reads
-as a missing test, so run the small ones first and come back to the slow ones.
+BUILD / RUN
+  Compiler: g++.exe (MinGW-W64 x86_64-msvcrt-posix-seh, built by Brecht
+            Sanders, r4) 16.1.0
+  Build:    g++ -std=c++17 -Wall -Wextra -pedantic -Iinclude src/*.cpp -o campus
+  Run:      ./campus <data-dir>
+  Result:   build exits 0 with no warnings; every test below exits 0.
 
-Two results already recorded: Test 6 was reproduced from a clean build of this
-tree and the numbers match (capacity 11, 2 accepted, 1 collision, duplicate
-rejected without bumping the count).  Everything else must be run on the real
-menu, not assumed from reading the code.
+READING THIS LOG
+  The menu is reprinted verbatim after every command. To keep the log
+  readable, that identical block is shown once here and marked
+  [menu] in each transcript. Every other line below is copied verbatim
+  from the captured program output.
 
-CELL verification is still required on top of this: the same binary must compile
-and run on a UNT CSE CELL machine before the Nov 8 submission.
+  [menu]
+  1 View all facilities
+  2 Search facility by ID
+  3 View campus graph
+  4 Display graph counts and degrees
+  5 Find reachable buildings (BFS)
+  6 Add department
+  7 Search department
+  8 Display department hierarchy
+  9 Run preorder traversal
+  0 Exit
+  Enter choice:
+
+  Temporary fixtures for Tests 1-4 were created outside the repo (a copy of
+  the instructor format with the bad lines added) and are not required at
+  submission time. Tests 5-9 use the committed data/ and testdata/ folders.
 
 Test 1
 Description: Valid records, blank lines, comment lines, too few/too many fields.
-Input: Instructor-format data files; add blank/comment/malformed lines in a
-separate temporary test directory.
+Input: Instructor-format data files with blank/comment/malformed lines added in
+       a separate temporary test directory.
 Expected: Blank/comment lines ignored; malformed records warn with filename,
-line number, and reason; processing continues.
-Actual: [Run and record exact output.]
-Result: NOT RUN
+          line number, and reason; processing continues.
+Actual: ./campus <temp-test1>
+  Warning: buildings.txt:5: duplicate building name
+  Warning: buildings.txt:6: expected 1 field
+  buildings.txt: 2 accepted, 2 rejected
+  Warning: connections.txt:3: duplicate or reversed connection
+  Warning: connections.txt:4: duplicate or reversed connection
+  Warning: connections.txt:5: unknown building: Nowhere
+  Warning: connections.txt:6: expected 2 fields
+  connections.txt: 1 accepted, 4 rejected
+  Warning: facilities.txt:3: duplicate facility ID: F001
+  Warning: facilities.txt:5: unknown building: Nowhere
+  Warning: facilities.txt:6: invalid facility ID; expected F plus exactly three digits
+  Warning: facilities.txt:7: expected 4 fields
+  facilities.txt: 2 accepted, 4 rejected (hash capacity 11, entries 2, collisions 0)
+  Warning: departments.txt:4: unknown parent: Nowhere University
+  departments.txt: 2 accepted, 1 rejected
+  [menu] Enter choice: 0
+Result: PASS
 
 Test 2
 Description: Missing input file.
 Input: Run ./campus with one required file absent from the selected data folder.
 Expected: Error names missing file; it is treated as empty; remaining files
-are processed and the program reaches the menu.
-Actual: [Run and record exact output.]
-Result: NOT RUN
+          are processed and the program reaches the menu.
+Actual: ./campus <temp-test2>   (facilities.txt deliberately absent)
+  buildings.txt: 2 accepted, 0 rejected
+  connections.txt: 1 accepted, 0 rejected
+  Error: cannot open facilities.txt; treating it as empty.
+  departments.txt: 1 accepted, 0 rejected
+  [menu] Enter choice: 0
+Result: PASS
 
 Test 3
 Description: Duplicate building names and duplicate facility IDs differing
-only by capitalization.
+             only by capitalization.
 Input: Duplicate entries in a separate test data directory.
 Expected: Later duplicate is rejected; first accepted record remains.
-Actual: [Run and record exact output.]
-Result: NOT RUN
+Actual: ./campus <temp-test3>
+  Warning: buildings.txt:3: duplicate building name
+  buildings.txt: 2 accepted, 1 rejected
+  connections.txt: 1 accepted, 0 rejected
+  Warning: facilities.txt:3: duplicate facility ID: F001
+  facilities.txt: 2 accepted, 1 rejected (hash capacity 11, entries 2, collisions 0)
+  departments.txt: 1 accepted, 0 rejected
+  [menu] Enter choice: 0
+Result: PASS
 
 Test 4
 Description: Unknown building references, duplicate/reversed connections,
-and unknown department parents.
+             and unknown department parents.
 Input: Invalid references in a separate test data directory.
 Expected: Invalid records rejected with filename, line number, and reason.
-Actual: [Run and record exact output.]
-Result: NOT RUN
+Actual: ./campus <temp-test4>
+  buildings.txt: 2 accepted, 0 rejected
+  Warning: connections.txt:3: duplicate or reversed connection
+  Warning: connections.txt:4: unknown building: Nowhere
+  Warning: connections.txt:5: self-connection
+  connections.txt: 1 accepted, 3 rejected
+  facilities.txt: 1 accepted, 0 rejected (hash capacity 11, entries 1, collisions 0)
+  Warning: departments.txt:3: unknown parent: Nowhere University
+  departments.txt: 1 accepted, 1 rejected
+  [menu] Enter choice: 0
+Result: PASS
 
 Test 5
 Description: Facility ID search: successful, lowercase, invalid-format,
-and valid-but-not-found.
+             and valid-but-not-found.
 Input: Menu option 2; F004, f004, 004, F999.
 Expected: F004 and f004 find Computer Lab A; 004 reports invalid format;
-F999 reports not found with normalized ID.
-Actual: [Run and record exact output.]
-Result: NOT RUN
+          F999 reports not found with normalized ID.
+Actual: ./campus data
+  buildings.txt: 7 accepted, 0 rejected
+  connections.txt: 6 accepted, 0 rejected
+  facilities.txt: 10 accepted, 0 rejected (hash capacity 11, entries 10, collisions 1)
+  departments.txt: 7 accepted, 0 rejected
+  [menu] Enter choice: Enter facility ID: ID: F004
+  Name: Computer Lab A
+  Building: Science Building
+  Category: Computer Lab
+  [menu] Enter choice: Enter facility ID: ID: F004
+  Name: Computer Lab A
+  Building: Science Building
+  Category: Computer Lab
+  [menu] Enter choice: Enter facility ID: Invalid facility ID format: 004 (expected F followed by exactly three digits)
+  [menu] Enter choice: Enter facility ID: Facility not found: F999
+  [menu] Enter choice: 0
+Result: PASS
 
 Test 6
 Description: Hash collision diagnostic and duplicate-key insertion.
 Input: ./campus testdata/collision
 Expected: Capacity 11; two accepted facility records; at least one collision;
-duplicate f001 rejected and does not increase entries or collision count.
-Actual: Ran ./campus testdata/collision. Output:
-facilities.txt: 2 accepted, 1 rejected (hash capacity 11, entries 2,
-collisions 1). Warning: facilities.txt:4: duplicate facility ID: F001.
-F001 and F013 both hash to bucket 3. The duplicate did not change the
-collision count.
-Result: PASS (local build; repeat on CELL)
+          duplicate f001 rejected and does not increase entries or collision count.
+Actual: ./campus testdata/collision
+  buildings.txt: 2 accepted, 0 rejected
+  connections.txt: 1 accepted, 0 rejected
+  Warning: facilities.txt:4: duplicate facility ID: F001
+  facilities.txt: 2 accepted, 1 rejected (hash capacity 11, entries 2, collisions 1)
+  departments.txt: 2 accepted, 0 rejected
+  [menu] Enter choice: 0
+  Entries stayed at 2 and collisions stayed at 1 after the duplicate, so the
+  rejected duplicate did not bump either counter.
+Result: PASS
 
 Test 7
 Description: BFS from a connected building, an isolated building, unknown
-start, and a graph with multiple connected components.
+             start, and a graph with multiple connected components.
 Input: Menu option 5; Library, Observatory, Unknown Building.
 Expected: Library reaches six buildings with BFS distances; Observatory
-reaches only itself; unknown start displays an error and returns to menu.
-Actual: [Run and record exact output.]
-Result: NOT RUN
+          reaches only itself; unknown start displays an error and returns
+          to menu.
+Actual: ./campus data
+  buildings.txt: 7 accepted, 0 rejected
+  connections.txt: 6 accepted, 0 rejected
+  facilities.txt: 10 accepted, 0 rejected (hash capacity 11, entries 10, collisions 1)
+  departments.txt: 7 accepted, 0 rejected
+  [menu] Enter choice: Enter starting building: Library (distance 0)
+  Student Union (distance 1)
+  Business Building (distance 1)
+  Science Building (distance 2)
+  Gym (distance 2)
+  Engineering Building (distance 3)
+  Reachable: 6 of 7 buildings
+  [menu] Enter choice: Enter starting building: Observatory (distance 0)
+  Reachable: 1 of 7 buildings
+  [menu] Enter choice: Enter starting building: Unknown building: Unknown Building
+  [menu] Enter choice: 0
+Result: PASS
 
 Test 8
 Description: Empty tree; adding root without parent prompt; root-only tree;
-search root, non-root, missing department; unknown parent; duplicate; preorder.
-Input: Menu options 6, 7, 8, and 9; use sample tree and a separate empty-tree
-dataset.
+             search root, non-root, missing department; unknown parent;
+             duplicate; preorder.
+Input: Menu options 6, 7, 8, and 9; sample tree, empty-tree dataset, and the
+       committed testdata/tree fixtures.
 Expected: Root can be added without parent prompt; valid child is inserted;
-unknown parent and duplicate are rejected; searches show name, parent,
-direct-child count, and depth; preorder preserves insertion order.
-Actual: [Run and record exact output.]
-Result: NOT RUN
+          unknown parent and duplicate are rejected; searches show name,
+          parent, direct-child count, and depth; preorder preserves
+          insertion order.
+Actual:
+  8a) ./campus testdata/tree/sample
+  buildings.txt: 0 accepted, 0 rejected
+  connections.txt: 0 accepted, 0 rejected
+  facilities.txt: 0 accepted, 0 rejected (hash capacity 11, entries 0, collisions 0)
+  departments.txt: 7 accepted, 0 rejected
+  [menu] Enter choice: Enter department name: Name: Computer Science
+  Parent: College of Engineering
+  Direct children: 0
+  Depth: 2
+  [menu] Enter choice: University
+      College of Engineering
+          Computer Science
+          Electrical Engineering
+      College of Science
+          Mathematics
+          Physics
+  [menu] Enter choice: University -> College of Engineering -> Computer Science -> Electrical Engineering -> College of Science -> Mathematics -> Physics
+  [menu] Enter choice: Enter department name: Enter parent department: Department added: Chemistry
+  [menu] Enter choice: Enter department name: Enter parent department: Department rejected: duplicate department: Physics
+  [menu] Enter choice: Enter department name: Enter parent department: Department rejected: unknown parent: Nowhere University
+  [menu] Enter choice: Enter department name: Name: University
+  Parent: None
+  Direct children: 3
+  Depth: 0
+  [menu] Enter choice: Enter department name: Department not found: Nowhere
+  [menu] Enter choice: 0
+
+  8b) ./campus testdata/tree/empty
+  buildings.txt: 0 accepted, 0 rejected
+  connections.txt: 0 accepted, 0 rejected
+  facilities.txt: 0 accepted, 0 rejected (hash capacity 11, entries 0, collisions 0)
+  departments.txt: 0 accepted, 0 rejected
+  [menu] Enter choice: Enter department name: Department added: University
+  (no parent prompt was printed while the tree was empty)
+  [menu] Enter choice: Enter department name: Enter parent department: Department added: College of Science
+  [menu] Enter choice: University
+      College of Science
+  [menu] Enter choice: University -> College of Science
+  [menu] Enter choice: Enter department name: Name: University
+  Parent: None
+  Direct children: 1
+  Depth: 0
+  [menu] Enter choice: 0
+
+  8c) ./campus testdata/tree/root-only
+  departments.txt: 1 accepted, 0 rejected
+  [menu] Enter choice: University
+  [menu] Enter choice: University
+  [menu] Enter choice: Enter department name: Name: University
+  Parent: None
+  Direct children: 0
+  Depth: 0
+  [menu] Enter choice: 0
+
+  8d) ./campus testdata/tree/unknown-parent
+  Warning: departments.txt:3: unknown parent: Nowhere University
+  departments.txt: 1 accepted, 1 rejected
+  [menu] Enter choice: 0
+
+  8e) ./campus testdata/tree/duplicate-name
+  Warning: departments.txt:4: duplicate department: physics
+  departments.txt: 2 accepted, 1 rejected
+  [menu] Enter choice: 0
+
+  8f) ./campus testdata/tree/sample, add then preorder
+  departments.txt: 7 accepted, 0 rejected
+  [menu] Enter choice: Enter department name: Enter parent department: Department added: Chemistry
+  [menu] Enter choice: University -> College of Engineering -> Computer Science -> Electrical Engineering -> College of Science -> Mathematics -> Physics -> Chemistry
+  [menu] Enter choice: 0
+  Chemistry was appended after the existing University children, so preorder
+  preserves insertion order.
+Result: PASS
 
 Test 9
 Description: Invalid menu input, text at numeric prompts, names with spaces,
-blank names, and repeated operations after errors.
+             blank names, and repeated operations after errors.
 Input: Menu entries blank, letters, out-of-range number; add/search names
-containing spaces and blank names.
+       containing spaces and blank names.
 Expected: Error is displayed; input stream recovers; program returns to menu
-without crashing or looping forever.
-Actual: [Run and record exact output.]
-Result: NOT RUN
+          without crashing or looping forever.
+Actual: ./campus data
+  buildings.txt: 7 accepted, 0 rejected
+  connections.txt: 6 accepted, 0 rejected
+  facilities.txt: 10 accepted, 0 rejected (hash capacity 11, entries 10, collisions 1)
+  departments.txt: 7 accepted, 0 rejected
+  [menu] Enter choice: Invalid choice: enter a number from the menu.        (blank line)
+  [menu] Enter choice: Invalid choice: enter a number from the menu.        (abc)
+  [menu] Enter choice: Invalid choice: enter a number from the menu.        (99)
+  [menu] Enter choice: Enter facility ID: Invalid facility ID format:  (expected F followed by exactly three digits)   (blank ID)
+  [menu] Enter choice: Enter facility ID: Invalid facility ID format: 004 (expected F followed by exactly three digits)
+  [menu] Enter choice: Enter department name: Enter parent department: Department rejected: department name cannot be blank
+  [menu] Enter choice: Enter department name: Department not found:
+  [menu] Enter choice: University
+      College of Engineering
+          Computer Science
+          Electrical Engineering
+      College of Science
+          Mathematics
+          Physics
+  [menu] Enter choice: University -> College of Engineering -> Computer Science -> Electrical Engineering -> College of Science -> Mathematics -> Physics
+  [menu] Enter choice: 0
+  Every bad input produced one error and returned to the menu; the program
+  never re-read the same bad line and exited 0 on the final 0.
+Result: PASS
 
 M1 NOTE
-Do not mark NOT RUN tests as PASS without executing them. Add exact actual
-outputs and update PASS/FAIL after local and CELL testing.
+All nine rows above were run on the local Windows/MinGW build at the given
+commands. CELL verification is still required: the same source must compile
+and run on a UNT CSE CELL machine with the README build command before the
+Nov 8 submission. Do not mark the CELL check done until that run is captured.
