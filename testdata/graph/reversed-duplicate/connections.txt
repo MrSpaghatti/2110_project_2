@@ -1,0 +1,4 @@
+
+# Connection cases
+Library|Student Union
+Student Union|Library

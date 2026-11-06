@@ -1,0 +1,5 @@
+
+# BuildingName
+Library
+Student Union
+# comment in the middle should be ignored
