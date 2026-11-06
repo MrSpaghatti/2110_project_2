@@ -18,7 +18,19 @@ Modules owned: Campus graph (adjacency list, undirected edges, display,
 degree counts) and BFS reachability; menu options 3, 4, 5; testdata/graph/.
 Also owns the graph section of design_document.txt.
 Work completed:
-  -
+  - Implemented include/CampusGraph.h with the CampusGraph public API and
+    private adjacency-list storage for building vertices and undirected edges.
+  - Completed src/CampusGraph.cpp for case-insensitive building lookup,
+    duplicate/self-connection rejection, canonical building names, display,
+    degree reporting, and BFS traversal from a given start building.
+  - Added menu options 3 (view graph), 4 (display counts and degrees), and 5
+    (find reachable buildings) in src/main.cpp using concise dispatch calls to
+    the graph methods.
+  - Added graph regression fixtures under testdata/graph/ for self-connection,
+    reversed duplicate, unknown building, and two separate components.
+  - Updated the graph section in design_document.txt to describe the adjacency
+    list model, undirected edge behavior, and BFS logic clearly for the project
+    documentation.
 
 Member C: Matthew Ojeh Jr. -- MatthewOjehJr
 Modules owned: Department general tree (insertion, case-insensitive search,
