@@ -1,0 +1,5 @@
+
+# Connection cases
+Library|Student Union
+# middle comment ignored
+Observatory|Radio Tower

@@ -1,0 +1,5 @@
+# FacilityID|FacilityName|BuildingName|Category
+F001|Front Desk|Library|Service
+F002|Student Help|Student Union|Service
+F003|Sky Lab|Observatory|Science
+F004|Signal Lab|Radio Tower|Science

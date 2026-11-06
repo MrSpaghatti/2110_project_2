@@ -1,0 +1,3 @@
+# FacilityID|FacilityName|BuildingName|Category
+F001|Welcome Desk|Library|Service
+F002|Info Booth|Student Union|Service

@@ -1,0 +1,2 @@
+# FacilityID|FacilityName|BuildingName|Category
+F001|Test Desk|Space Needle|Library
