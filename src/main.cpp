@@ -1,8 +1,8 @@
 // ===========================================================================
 // main.cpp -- program entry point, file loading, and the Milestone 1 menu.
-// Authors: Logan Conrad (menu shell, options 1-2)
+// Authors: Logan Conrad (options 1-2)
 //          Hoang Le (options 3-5)
-//          Matthew Ojeh Jr. (options 6-9)
+//          Matthew Ojeh Jr. (menu shell, options 6-9)
 //
 // Purpose: selects the data directory, constructs the four data structures,
 // hands them to DataLoader, then runs the menu loop that dispatches each
