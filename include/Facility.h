@@ -1,4 +1,4 @@
-// Purpose: Defines a campus facility record. Author: Project team.
+// Purpose: Defines a campus facility record. Author: Logan Conrad.
 #ifndef FACILITY_H
 #define FACILITY_H
 #include <string>

@@ -1,5 +1,5 @@
 // Purpose: Reads, validates, and loads the four campus data files in the
-//          required order. Author: Logan.
+//          required order. Author: Logan Conrad.
 //
 // This is the only class that knows the filename and the line number, which is
 // why every rejection warning prints from here; the data structures only answer

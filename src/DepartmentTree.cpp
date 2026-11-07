@@ -1,4 +1,4 @@
-// Purpose: Implements department insertion, search, and preorder displays. Author: Project team.
+// Purpose: Implements department insertion, search, and preorder displays. Author: Matthew Ojeh Jr.
 #include "DepartmentTree.h"
 #include <cctype>
 #include <iostream>

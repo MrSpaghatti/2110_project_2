@@ -1,4 +1,4 @@
-// Purpose: Custom separate-chaining hash table for facility IDs. Author: Project team.
+// Purpose: Custom separate-chaining hash table for facility IDs. Author: Logan Conrad.
 #ifndef HASHTABLE_H
 #define HASHTABLE_H
 #include "Facility.h"

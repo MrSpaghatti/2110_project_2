@@ -1,4 +1,4 @@
-// Purpose: Implements custom ID hashing and separate chaining. Author: Project team.
+// Purpose: Implements custom ID hashing and separate chaining. Author: Logan Conrad.
 #include "HashTable.h"
 #include <cctype>
 HashTable::HashTable(std::size_t capacity) : buckets_(capacity ? capacity : 11) {}

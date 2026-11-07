@@ -1,0 +1,12 @@
+# Canonical identities for this repository.
+# Maps the alternate names/emails used on individual machines onto one
+# identity per team member, so `git shortlog -sne` shows three people
+# instead of six.
+
+Logan Conrad <MrSpaghatti@users.noreply.github.com> MrSpaghatti <MrSpaghatti@users.noreply.github.com>
+Logan Conrad <MrSpaghatti@users.noreply.github.com> Mr. Spaghetti <31194476+MrSpaghatti@users.noreply.github.com>
+Logan Conrad <MrSpaghatti@users.noreply.github.com> <31194476+MrSpaghatti@users.noreply.github.com>
+
+Hoang Trung Le <lehoangtrung108@gmail.com> Hoang Trung <hoang@example.com>
+
+Matthew Ojeh Jr. <MathewOjehJr@my.unt.edu> MatthewOjehJr <MathewOjehJr@my.unt.edu>

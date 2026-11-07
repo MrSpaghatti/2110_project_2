@@ -1,4 +1,4 @@
-// Purpose: Reads, validates, and loads campus text files. Author: Project team.
+// Purpose: Reads, validates, and loads campus text files. Author: Logan Conrad.
 #include "DataLoader.h"
 #include <cctype>
 #include <fstream>

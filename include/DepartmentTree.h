@@ -1,4 +1,4 @@
-// Purpose: Implements the general academic department tree. Author: Project team.
+// Purpose: Declares the general academic department tree. Author: Matthew Ojeh Jr.
 #ifndef DEPARTMENTTREE_H
 #define DEPARTMENTTREE_H
 #include <memory>
