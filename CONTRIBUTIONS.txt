@@ -11,17 +11,14 @@ Modules owned: Facility record, custom facility-ID hash table, file loading and
 validation (DataLoader), facility listing and ID search, main.cpp menu shell.
 Also owns README.txt and the hash-table section of design_document.txt.
 Work completed:
-  - Set up the repository for M1: flattened the draft to the project root, added
-    .gitignore for build artifacts, and wrote the per-lane split in this file
-    (module, menu options, test data and documentation section per member).
-  - Wrote the comment-only module skeletons that carry the design notes:
-    include/CampusGraph.h, include/DataLoader.h, the menu specification block in
-    src/main.cpp, and the testdata/graph and testdata/tree READMEs.
+  - Set up the M1 repository and split the work into per-member lanes: project
+    root layout, .gitignore for build artifacts, and the ownership list in this
+    file (module, menu options, test data and documentation section per member).
   - Typed the declarations in include/DataLoader.h for my module (public trim and
-    load, private split) so DataLoader.cpp has matching declarations again. The
-    module builds clean on a local Linux build and passes the M1 behaviour
-    checks: facility listing, ID search, hash counters, BFS, the tree fixtures,
-    and menu input recovery.
+    load, private split) so DataLoader.cpp has matching declarations again, which
+    restored the build for the whole team, and confirmed the M1 behaviour checks
+    pass on a local Linux build: facility listing, ID search, hash counters, BFS,
+    the tree fixtures, and menu input recovery.
 
 Member B: Hoang Trung Le -- lehoangtrung-108
 Modules owned: Campus graph (adjacency list, undirected edges, display,
