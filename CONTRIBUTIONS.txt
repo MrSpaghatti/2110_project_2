@@ -6,12 +6,29 @@ module's menu options in main.cpp, its test data, and the part of the
 documentation listed under their name.  Fill in "Work completed" with what you
 actually did -- a few concrete lines beat a paragraph of adjectives.
 
-Member A: Logan (MrSpaghatti) -- <add full name>
+Member A: Logan Conrad (MrSpaghatti)
 Modules owned: Facility record, custom facility-ID hash table, file loading and
 validation (DataLoader), facility listing and ID search, main.cpp menu shell.
 Also owns README.txt and the hash-table section of design_document.txt.
 Work completed:
-  -
+  - Set up the repository for M1: flattened the draft to the project root, added
+    .gitignore for build artifacts, and wrote the per-lane split in this file.
+  - Wrote the comment-only module skeletons that carry the design notes:
+    include/DataLoader.h, the menu specification block in src/main.cpp, and the
+    testdata/graph and testdata/tree READMEs.
+  - Typed the declarations in include/DataLoader.h (public trim and load, private
+    split) so DataLoader.cpp has matching declarations again, and verified the
+    M1 behaviours: facility listing, ID search, hash counters, BFS, the tree
+    fixtures, and menu input recovery.
+  - Implemented include/Facility.h, the custom facility-ID hash table
+    (include/HashTable.h, src/HashTable.cpp) and src/DataLoader.cpp: file
+    loading in the required order, per-record validation with filename and
+    line-number warnings, and the per-file accepted/rejected summary including
+    the capacity/entries/collisions line.
+  - Wrote the build, run and layout sections of README.txt and section 1 of
+    design_document.txt (custom facility-ID hash table).
+  - Options 1-2 in src/main.cpp are my lane; they arrived with Member C's build
+    unblock and are covered by the local M1 behaviour run.
 
 Member B: Hoang Trung Le -- lehoangtrung-108
 Modules owned: Campus graph (adjacency list, undirected edges, display,
