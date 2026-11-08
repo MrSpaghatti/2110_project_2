@@ -31,7 +31,11 @@ bool DataLoader::load(const std::string& dir,std::vector<Facility>& facilities,
     bool allOpened=true;
     auto process=[&](const std::string& filename, auto handler) {
         std::ifstream in(dir+"/"+filename);
-        if(!in) { std::cerr<<"Error: cannot open "<<filename<<"; treating it as empty.\n"; allOpened=false; return; }
+        if(!in) {
+            std::cout<<"Error: cannot open "<<filename<<"; treating it as empty.\n";
+            std::cout<<filename<<": 0 accepted, 0 rejected\n";
+            allOpened=false; return;
+        }
         std::string line; std::size_t lineNo=0,accepted=0,rejected=0;
         while(std::getline(in,line)) {
             ++lineNo;
@@ -39,7 +43,7 @@ bool DataLoader::load(const std::string& dir,std::vector<Facility>& facilities,
             if(t.empty() || t[0]=='#')continue;
             std::string reason;
             if(handler(split(line),reason)) ++accepted;
-            else { ++rejected; std::cerr<<"Warning: "<<filename<<":"<<lineNo<<": "<<reason<<"\n"; }
+            else { ++rejected; std::cout<<"Warning: "<<filename<<":"<<lineNo<<": "<<reason<<"\n"; }
         }
         std::cout<<filename<<": "<<accepted<<" accepted, "<<rejected<<" rejected";
         if(filename=="facilities.txt")
