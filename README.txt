@@ -58,9 +58,12 @@ category/connectivity reports).
 MILESTONE 1 STATUS
 The full M1 menu is implemented. All nine tests recorded in test_results.txt
 were run on a local build and pass; testdata/tree/ holds the department-tree
-cases. CELL verification is the remaining step before submission.
+cases. CELL verification is complete: the submitted ZIP was built and run on a
+UNT CSE CELL machine, and that transcript is recorded in test_results.txt.
 
 CELL CHECK
-Compile and run on a UNT CSE CELL machine well before the deadline. The
-commands above are the exact build and run commands. Confirm that the same
-source, data, and documentation are present in the GitHub repository and ZIP.
+Confirmed on cell01-cse with g++ 11.4.0 (Ubuntu 22.04): the source builds clean
+under the command above, with no warnings, and the M1 menu behaves exactly as
+recorded. Re-run the same two commands there if any file changes before
+submission. Confirm that the same source, data, and documentation are present
+in the GitHub repository and ZIP.

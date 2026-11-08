@@ -65,6 +65,7 @@ Actual: ./campus <temp-test2>   (facilities.txt deliberately absent)
   buildings.txt: 2 accepted, 0 rejected
   connections.txt: 1 accepted, 0 rejected
   Error: cannot open facilities.txt; treating it as empty.
+  facilities.txt: 0 accepted, 0 rejected
   departments.txt: 1 accepted, 0 rejected
   [menu] Enter choice: 0
 Result: PASS
@@ -282,8 +283,90 @@ Actual: ./campus data
   never re-read the same bad line and exited 0 on the final 0.
 Result: PASS
 
-M1 NOTE
-All nine rows above were run on the local Windows/MinGW build at the given
-commands. CELL verification is still required: the same source must compile
-and run on a UNT CSE CELL machine with the README build command before the
-Nov 8 submission. Do not mark the CELL check done until that run is captured.
+CELL VERIFICATION (REQUIRED CHECK -- COMPLETE)
+The submitted ZIP was copied to a UNT CSE CELL machine and built and run there
+with the README build command. That is the run the milestone requires, and it
+succeeded: the build exits 0 with no warnings under -Wall -Wextra -pedantic,
+and every line below is copied verbatim from that machine.
+
+  host:     cell01-cse
+  user:     lfc0069
+  compiler: g++ (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0
+  source:   unzipped from 2110_project_2_M1.zip
+  build:    g++ -std=c++17 -Wall -Wextra -pedantic -Iinclude src/*.cpp -o campus
+  result:   build exits 0, no warnings, no errors
+  binary:   219808 bytes
+
+  Load summary and option 4 (counts and degrees):
+    buildings.txt: 7 accepted, 0 rejected
+    connections.txt: 6 accepted, 0 rejected
+    facilities.txt: 10 accepted, 0 rejected (hash capacity 11, entries 10, collisions 1)
+    departments.txt: 7 accepted, 0 rejected
+    [menu] Enter choice: Total buildings: 7
+    Total connections: 6
+    Library degree: 2
+    Student Union degree: 3
+    Science Building degree: 2
+    Engineering Building degree: 1
+    Business Building degree: 2
+    Gym degree: 2
+    Observatory degree: 0
+
+  Option 5 (BFS from Library):
+    [menu] Enter choice: Enter starting building: Library (distance 0)
+    Student Union (distance 1)
+    Business Building (distance 1)
+    Science Building (distance 2)
+    Gym (distance 2)
+    Engineering Building (distance 3)
+    Reachable: 6 of 7 buildings
+
+  Option 2 (found, lowercase normalised, malformed, absent):
+    [menu] Enter choice: Enter facility ID: ID: F001
+    Name: Main Reading Room
+    Building: Library
+    Category: Library
+    [menu] Enter choice: Enter facility ID: ID: F004
+    Name: Computer Lab A
+    Building: Science Building
+    Category: Computer Lab
+    [menu] Enter choice: Enter facility ID: Invalid facility ID format: 004 (expected F followed by exactly three digits)
+    [menu] Enter choice: Enter facility ID: Facility not found: F999
+
+  Option 9 (preorder traversal):
+    [menu] Enter choice: University -> College of Engineering -> Computer Science
+    -> Electrical Engineering -> College of Science -> Mathematics -> Physics
+
+  Collision fixture (testdata/collision):
+    buildings.txt: 2 accepted, 0 rejected
+    connections.txt: 1 accepted, 0 rejected
+    Warning: facilities.txt:4: duplicate facility ID: F001
+    facilities.txt: 2 accepted, 1 rejected (hash capacity 11, entries 2, collisions 1)
+    departments.txt: 2 accepted, 0 rejected
+    [menu] Enter choice: F001 | First Facility | Library | Library
+    F013 | Second Facility | Student Union | Computer Lab
+    Total facilities: 2
+
+  Missing data directory (testdata/does-not-exist):
+    Error: cannot open buildings.txt; treating it as empty.
+    buildings.txt: 0 accepted, 0 rejected
+    Error: cannot open connections.txt; treating it as empty.
+    connections.txt: 0 accepted, 0 rejected
+    Error: cannot open facilities.txt; treating it as empty.
+    facilities.txt: 0 accepted, 0 rejected
+    Error: cannot open departments.txt; treating it as empty.
+    departments.txt: 0 accepted, 0 rejected
+    [menu] Enter choice:
+
+Result: PASS -- the same source builds clean and produces the expected output
+on UNT CSE CELL.
+
+All load warnings and the cannot-open error print to stdout with the load
+summaries, so a redirected or scripted run captures every rejection reason and
+every per-file summary. Rejection counts are unchanged from the local run; only
+the stream carrying the messages moved.
+
+COMPILER NOTE
+Two independent toolchains were used and agree on every result: MinGW-W64
+g++.exe 16.1.0 on Windows (the nine tests above) and g++ 11.4.0 on UNT CSE
+CELL (the transcripts in this section).
