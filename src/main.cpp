@@ -1,8 +1,8 @@
 // ===========================================================================
-// main.cpp -- program entry point, file loading, and the Milestone 1 menu.
-// Authors: Logan Conrad (options 1-2)
-//          Hoang Le (options 3-5)
-//          Matthew Ojeh Jr. (menu shell, options 6-9)
+// main.cpp -- program entry point, file loading, and the Final menu.
+// Authors: Logan Conrad (options 1-4, 16)
+//          Hoang Le (options 5-8, 17)
+//          Matthew Ojeh Jr. (menu shell, options 9-15)
 //
 // Purpose: selects the data directory, constructs the four data structures,
 // hands them to DataLoader, then runs the menu loop that dispatches each
@@ -10,7 +10,7 @@
 // input, calls one method, and returns to the menu (NFR-2).
 //
 // Menu numbering follows the specification exactly (UI-7) because scripted
-// testing depends on it.
+// testing depends on it. The Final menu has 17 options plus 0 to exit.
 // ===========================================================================
 #include <cctype>
 #include <iostream>
@@ -21,21 +21,30 @@
 #include "DataLoader.h"
 #include "DepartmentTree.h"
 #include "Facility.h"
+#include "FacilitySearch.h"
 #include "HashTable.h"
 
 namespace {
 
 void printMenu() {
-    std::cout << "\n1 View all facilities\n"
-              << "2 Search facility by ID\n"
-              << "3 View campus graph\n"
-              << "4 Display graph counts and degrees\n"
-              << "5 Find reachable buildings (BFS)\n"
-              << "6 Add department\n"
-              << "7 Search department\n"
-              << "8 Display department hierarchy\n"
-              << "9 Run preorder traversal\n"
-              << "0 Exit\n"
+    std::cout << "\n1  View all facilities\n"
+              << "2  Search facility by ID\n"
+              << "3  Search facility by name\n"
+              << "4  Search facility by category\n"
+              << "5  View campus graph\n"
+              << "6  Display graph counts and degrees\n"
+              << "7  Find reachable buildings (BFS)\n"
+              << "8  Find shortest path (BFS)\n"
+              << "9  Add department\n"
+              << "10 Search department\n"
+              << "11 Display department hierarchy\n"
+              << "12 Preorder traversal\n"
+              << "13 Postorder traversal\n"
+              << "14 Level-order traversal\n"
+              << "15 Department statistics\n"
+              << "16 Facility category report\n"
+              << "17 Graph connectivity report\n"
+              << "0  Exit\n"
               << "Enter choice: ";
 }
 
@@ -122,21 +131,39 @@ int main(int argc, char* argv[]) {
                 }
                 break;
             }
-            case 3: {  // HOANG -- display graph
+            case 3: {  // LOGAN -- search by name (FAC-4)
+                std::string name;
+                if (!readLine("Enter facility name: ", name)) { running = false; break; }
+                searchFacilityByName(facilities, name);
+                break;
+            }
+            case 4: {  // LOGAN -- search by category (FAC-5)
+                std::string category;
+                if (!readLine("Enter facility category: ", category)) { running = false; break; }
+                searchFacilityByCategory(facilities, category);
+                break;
+            }
+            case 5: {  // HOANG -- display graph
                 graph.display();
                 break;
             }
-            case 4: {  // HOANG -- counts and degrees
+            case 6: {  // HOANG -- counts and degrees
                 graph.displayDegrees();
                 break;
             }
-            case 5: {  // HOANG -- BFS
+            case 7: {  // HOANG -- BFS
                 std::string start;
                 if (!readLine("Enter starting building: ", start)) { running = false; break; }
                 graph.bfs(DataLoader::trim(start));
                 break;
             }
-            case 6: {  // OJ -- add department
+            case 8: {  // HOANG -- shortest path (BFS)
+                // TODO(hoang): prompt for start and destination, then call the
+                // shortest-path method once CampusGraph declares it.
+                std::cout << "Shortest path is not implemented yet.\n";
+                break;
+            }
+            case 9: {  // OJ -- add department
                 std::string name;
                 if (!readLine("Enter department name: ", name)) { running = false; break; }
                 std::string parent;
@@ -151,18 +178,42 @@ int main(int argc, char* argv[]) {
                 }
                 break;
             }
-            case 7: {  // OJ -- search department
+            case 10: {  // OJ -- search department
                 std::string name;
                 if (!readLine("Enter department name: ", name)) { running = false; break; }
                 tree.search(DataLoader::trim(name));
                 break;
             }
-            case 8: {  // OJ -- hierarchy
+            case 11: {  // OJ -- hierarchy
                 tree.displayHierarchy();
                 break;
             }
-            case 9: {  // OJ -- preorder
+            case 12: {  // OJ -- preorder
                 tree.preorder();
+                break;
+            }
+            case 13: {  // OJ -- postorder
+                // TODO(oj): call the postorder method once DepartmentTree declares it.
+                std::cout << "Postorder traversal is not implemented yet.\n";
+                break;
+            }
+            case 14: {  // OJ -- level-order
+                // TODO(oj): call the level-order method once DepartmentTree declares it.
+                std::cout << "Level-order traversal is not implemented yet.\n";
+                break;
+            }
+            case 15: {  // OJ -- department statistics
+                // TODO(oj): call the statistics method once DepartmentTree declares it.
+                std::cout << "Department statistics are not implemented yet.\n";
+                break;
+            }
+            case 16: {  // LOGAN -- facility category report (RPT-2)
+                printFacilityCategoryReport(facilities);
+                break;
+            }
+            case 17: {  // HOANG -- graph connectivity report
+                // TODO(hoang): call the connectivity report once CampusGraph declares it.
+                std::cout << "Graph connectivity report is not implemented yet.\n";
                 break;
             }
             case 0: {
