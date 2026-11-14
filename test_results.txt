@@ -370,3 +370,150 @@ COMPILER NOTE
 Two independent toolchains were used and agree on every result: MinGW-W64
 g++.exe 16.1.0 on Windows (the nine tests above) and g++ 11.4.0 on UNT CSE
 CELL (the transcripts in this section).
+
+
+===================================================================
+FINAL PHASE TEST RESULTS
+===================================================================
+Rows F1-F17 cover the features added in the Final phase, run against the
+integrated trunk. The Milestone 1 rows above were re-run in the same sessions
+and are unchanged.
+
+Format: test # | description | input | expected | actual | pass/fail
+
+F1  | facility listing, file order and total        | option 1                    | 10 facilities in file order, total 10     | as expected | PASS
+F2  | facility ID search, hit                       | option 2, F005              | F005 detail, four fields                  | as expected | PASS
+F3  | facility ID search, lowercase input           | option 2, f005              | same record (ID normalized)               | as expected | PASS
+F4  | facility ID search, miss                      | option 2, F999              | "Facility not found: F999"                | as expected | PASS
+F5  | facility ID validation                        | option 2, F5                | invalid-format message naming the rule    | as expected | PASS
+F6  | name search, duplicate names in file order    | option 3, Room 101          | F005 then F007, Match Count: 2            | as expected | PASS
+F7  | name search, case-insensitive                 | option 3, room 101          | same two records, count 2                 | as expected | PASS
+F8  | name search, miss                             | option 3, Room 999          | "Room 999 not found."                     | as expected | PASS
+F9  | category search, hit and case-insensitive     | option 4, Classroom/ classroom | F005, F007, F009, count 3              | as expected | PASS
+F10 | category search, miss                         | option 4, Nope              | "Nope not found."                         | as expected | PASS
+F11 | category report, sample data                  | option 16                   | 6 groups: 20.0/10.0/10.0/20.0/30.0/10.0, total 10 | as expected | PASS
+F12 | category report groups ignoring case and     | mixed-case fixture          | one group "library: 3 (100.0%)"           | as expected | PASS
+    | displays the first accepted spelling          | (library/Library/LIBRARY)   |                                           |             |
+F13 | category report, no facilities                | empty data directory        | none-available message, total 0, no crash | as expected | PASS
+F14 | empty data files                              | four empty files            | 0 accepted per file, listing reports none loaded | as expected | PASS
+F15 | missing data directory                        | nonexistent path            | cannot-open error per file, no crash      | as expected | PASS
+F16 | exit at the listed terminating option and 0   | 18 / 0                      | clean exit, rc 0 both                     | as expected | PASS
+F17 | bad menu input recovery                       | abc, 99                     | invalid-choice message, menu continues     | as expected | PASS
+
+Options 8, 13, 14, 15 and 17 belong to the other two members' modules and are
+verified in the rows their owners add when those branches merge; every
+operation present in this trunk is covered above.
+
+-------------------------------------------------------------------
+CELL VERIFICATION (FINAL)
+The Final trunk was copied to a UNT CSE CELL machine and built and run with the
+README build command. Every line below is copied verbatim from that machine.
+
+  host:     cell11-cse
+  user:     lfc0069
+  compiler: g++ (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0
+  source:   git archive of main, unzipped to /var/tmp/lfc0069_p2/2110_project_2_final
+  build:    g++ -std=c++17 -Wall -Wextra -pedantic -Iinclude src/*.cpp -o campus
+  result:   build exits 0, no warnings, no errors
+  binary:   247776 bytes
+  make:     make reproduces the same binary from a clean tree, exit 0
+
+  [option 1 output]
+    Enter choice: F001 | Main Reading Room | Library | Library
+    F002 | Tutoring Center | Library | Tutoring Center
+    F003 | Student Services Office | Student Union | Student Services Office
+    F004 | Computer Lab A | Science Building | Computer Lab
+    F005 | Room 101 | Engineering Building | Classroom
+    F006 | Computer Lab B | Engineering Building | Computer Lab
+    F007 | Room 101 | Business Building | Classroom
+    F008 | Fitness Center | Gym | Recreation
+    F009 | Room 205 | Science Building | Classroom
+    F010 | Research Help Desk | Library | Library
+    Total facilities: 10
+
+  [option 2, F005 / f005 / F999 / F5]
+    Enter choice: Enter facility ID: ID: F005
+    Name: Room 101
+    Building: Engineering Building
+    Category: Classroom
+    Enter choice: Enter facility ID: ID: F005
+    Enter choice: Enter facility ID: Facility not found: F999
+    Enter choice: Enter facility ID: Invalid facility ID format: F5 (expected F followed by exactly three digits)
+
+  [option 3, Room 101 / room 101 / Room 999]
+    Enter choice: Enter facility name: F005 | Room 101 | Engineering Building | Classroom
+    F007 | Room 101 | Business Building | Classroom
+    Match Count: 2
+    Enter choice: Enter facility name: F005 | Room 101 | Engineering Building | Classroom
+    F007 | Room 101 | Business Building | Classroom
+    Match Count: 2
+    Enter choice: Enter facility name: Room 999 not found.
+
+  [option 4, Classroom / classroom / Nope]
+    Enter choice: Enter facility category: F005 | Room 101 | Engineering Building | Classroom
+    F007 | Room 101 | Business Building | Classroom
+    F009 | Room 205 | Science Building | Classroom
+    Match Count: 3
+    Enter choice: Enter facility category: Nope not found.
+
+  [option 16, sample data]
+    Enter choice: Library: 2 (20.0%)
+    Tutoring Center: 1 (10.0%)
+    Student Services Office: 1 (10.0%)
+    Computer Lab: 2 (20.0%)
+    Classroom: 3 (30.0%)
+    Recreation: 1 (10.0%)
+    Total facilities: 10
+
+  [option 16, mixed-case fixture: categories library, Library, LIBRARY]
+    Enter choice: library: 3 (100.0%)
+    Total facilities: 3
+
+  [option 16 and 1, empty data directory]
+    buildings.txt: 0 accepted, 0 rejected
+    connections.txt: 0 accepted, 0 rejected
+    facilities.txt: 0 accepted, 0 rejected (hash capacity 11, entries 0, collisions 0)
+    departments.txt: 0 accepted, 0 rejected
+    Enter choice: No facilities are loaded.
+    Total facilities: 0
+    Enter choice: No facilities are available to report.
+    Total facilities: 0
+
+  [missing data directory]
+    Error: cannot open buildings.txt; treating it as empty.
+    buildings.txt: 0 accepted, 0 rejected
+    Error: cannot open connections.txt; treating it as empty.
+    Error: cannot open facilities.txt; treating it as empty.
+    Error: cannot open departments.txt; treating it as empty.
+
+  [bad input recovery, then exit]
+    Enter choice: Invalid choice: enter a number from the menu.
+    Enter choice: Invalid choice: enter a number from the menu.
+
+  [exit codes]
+    exit at 18: rc=0
+    exit at 0:  rc=0
+
+Result: PASS -- the integrated trunk builds clean on UNT CSE CELL with g++
+11.4.0 under -Wall -Wextra -pedantic and produces the expected output for
+every operation present in the trunk.
+
+-------------------------------------------------------------------
+MEMORY CHECK (NFR-11)
+Run on cell02-cse (cell11-cse does not have valgrind installed), same source,
+built with -g. The run exercised listing, ID search, name search, category
+search, graph display, degree counts, BFS, department insert/search/hierarchy/
+preorder, the category report, and exit, so the tree destructors and the
+graph's vector storage are both freed on the normal path.
+
+  host:      cell02-cse
+  valgrind:  Valgrind-3.18.1 (Memcheck)
+  command:   valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./campus
+  result:
+    HEAP SUMMARY:
+        in use at exit: 0 bytes in 0 blocks
+      total heap usage: 439 allocs, 439 frees, 134,791 bytes allocated
+    All heap blocks were freed -- no leaks are possible
+    ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+
+Result: PASS -- no leaks, no invalid reads or writes.
