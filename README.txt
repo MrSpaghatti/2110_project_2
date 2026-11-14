@@ -87,10 +87,11 @@ and category search, shortest path, postorder/level-order, tree statistics,
 the category report, the connectivity report, and the error-handling cases.
 
 CELL CHECK
-Confirmed on cell01-cse with g++ 11.4.0 (Ubuntu 22.04) for the Milestone 1
-package: the source builds clean under the command above, with no warnings, and
-the menu behaved exactly as recorded in test_results.txt. The Final source is
-re-verified on the same toolchain before submission and that transcript is
-recorded in test_results.txt alongside the Milestone 1 run. Before submitting,
-confirm that the same source, data, and documentation are present in the GitHub
-repository and in the ZIP, and that no executable is included in either.
+Verified on UNT CSE CELL with g++ 11.4.0 (Ubuntu 22.04): the Milestone 1
+package was built and run on cell01-cse, and the Final trunk was built and run
+on cell11-cse with the command above -- exit 0, no warnings, and the output
+recorded in test_results.txt. The Final memory check (valgrind) ran on
+cell02-cse with no leaks and no invalid accesses; that transcript is in
+test_results.txt as well. Before submitting, confirm that the same source,
+data, and documentation are present in the GitHub repository and in the ZIP,
+and that no executable is included in either.
