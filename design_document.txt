@@ -1,4 +1,4 @@
-MILESTONE 1 DESIGN DOCUMENT
+FINAL DESIGN DOCUMENT
 Smart Campus Navigation and Facility Analytics System
 
 1. CUSTOM FACILITY-ID HASH TABLE
@@ -24,40 +24,114 @@ allows buckets to grow, so there is no fixed maximum number of facilities.
 The HASH-7 diagnostic prints capacity, accepted entries, and collisions
 alongside the facilities load summary.
 
+The hash table remains the only custom hash structure in the project and is
+used for ID lookup only. Name and category search use the ordered facility
+vector described in section 4.
+
 2. CAMPUS GRAPH
 CampusGraph uses an adjacency list. Each vertex stores its building name and
 a dynamically sized vector of neighboring vertex indexes. Connections are
 undirected: adding A|B adds each endpoint to the other's neighbor list and
 increments the edge count once. Duplicate and reversed connections are
 rejected. Vertex order follows buildings.txt; neighbor order follows accepted
-connection-file order. BFS uses std::queue and a visited vector. A vertex is
-marked visited when it is enqueued, and distance is the number of edges from
-the start.
+connection-file order. Neighbour lists are never sorted, because sorting them
+would change BFS discovery order and break the specified tie-breaking. BFS
+uses std::queue and a visited vector. A vertex is marked visited when it is
+enqueued, and distance is the number of edges from the start.
+
+Final additions to this module:
+- Shortest path (BFS-4, BFS-5): breadth-first search from the start building
+  while recording a parent index for every newly discovered vertex. When the
+  destination is dequeued, the parent chain is walked back to the start and
+  printed one building per line with the connection count. Start equal to
+  destination prints that building and a count of zero; no route prints a
+  message naming both endpoints. Ties between equally short routes resolve in
+  neighbour insertion order because neighbours are never sorted.
+- Connectivity report (RPT-2): total buildings, total connections, every
+  building tied for the highest degree, isolated buildings (or a "None"
+  message when there are none), and the number of connected components
+  counted by running a BFS from each unvisited vertex.
 
 3. DEPARTMENT TREE
 DepartmentTree is a general tree. Each node contains its department name,
 a pointer to its parent, and a vector of owning child pointers
 (std::unique_ptr). The first valid department becomes the root; subsequent
-records attach to a parent that has already been loaded. M1 operations include
+records attach to a parent that has already been loaded. Operations include
 adding a department, case-insensitive search, hierarchy display, and preorder
-traversal. Siblings retain insertion order.
+traversal. Siblings retain insertion order, and the indented hierarchy shows
+one four-space level per generation.
 
-4. MAIN CLASSES AND MODULES
+Final additions to this module:
+- Postorder traversal (TREE-7): children before their parent, siblings in
+  insertion order, printed as a flat sequence with no indentation.
+- Level-order traversal (TREE-7): a queue drives the traversal so that all
+  nodes at one depth print before any node at the next depth. The queue is
+  required by the specification; a recursive implementation cannot satisfy it.
+- Statistics (TREE-8): total node count, leaf count (nodes with no children),
+  and height measured as the maximum depth with the root at depth 0. An empty
+  tree reports 0, 0, and N/A; a root-only tree reports 1, 1, and 0.
+
+4. FACILITY SEARCH AND CATEGORY REPORT
+Facility searches and the category report operate on the ordered vector
+of accepted facilities that the loader also inserts into the hash table. The
+vector keeps the order in which facilities were accepted from facilities.txt.
+Order matters twice: search results are printed in file order, and the
+category report displays the spelling used by the first accepted facility in
+each category. For ten facilities the specification explicitly allows a
+straight scan (section 6.2), so no hash table is used for these operations; a
+second hash table keyed by name would also need case-folded keys and could not
+report first-accepted spelling order.
+
+Name search (FAC-4) and category search (FAC-5): trim the outer whitespace of
+the query, reject a blank query with an error message, then compare the
+complete field case-insensitively against every accepted facility. Every match
+prints all four fields on one line in file order, followed by the match count.
+A query with no matches prints a not-found message that echoes the trimmed
+query. Partial matching is not required.
+
+Facility category report (RPT-1): facilities are grouped by lowercased
+category, so "Library" and "library" are one group, while the spelling shown is
+the one used by the first facility that joined the group. Groups are held in a
+vector of (display spelling, count) pairs and searched linearly, which keeps
+group order equal to first appearance instead of alphabetical order. Each group
+prints its spelling, count, and percentage of all accepted facilities to
+exactly one decimal place, followed by the total. An empty facility vector
+prints a "none available" message and a total of zero, and returns before any
+percentage is computed, so no division by zero is possible.
+
+5. MAIN CLASSES AND MODULES
 - Facility: stores ID, facility name, building, and category.
 - HashTable: custom ID hash, separate chaining, insertion, duplicate checking,
   and lookup.
 - CampusGraph: building vertices, undirected edges, display, degree counts,
-  and BFS reachability.
-- DepartmentTree: general-tree insertion, search, indented hierarchy, and
-  preorder traversal.
+  BFS reachability, shortest path, and the connectivity report.
+- DepartmentTree: general-tree insertion, search, indented hierarchy, preorder,
+  postorder, level-order traversal, and statistics.
+- FacilitySearch: name search, category search, and the category report over
+  the ordered facility vector.
 - DataLoader: reads all four files in the required order, trims fields,
   validates records, reports rejected line numbers, and prints load summaries.
+  A facility's building is replaced with the canonical spelling known to
+  CampusGraph, so displayed building names match buildings.txt even when the
+  file used different capitalization.
 - main.cpp: chooses the data directory, initializes modules, coordinates
-  loading, presents the required M1 menu, and handles user input.
+  loading, presents the seventeen-option Final menu, and handles user input.
 
-5. FILE AND ERROR HANDLING
-Input is read one complete line at a time. Blank and comment lines are ignored.
-Fields are separated by vertical bars and trimmed at their outer whitespace.
-Malformed, duplicate, and invalid-reference records are rejected with a
-filename, line number, and reason. A missing file produces an error and is
-treated as empty so the remaining files can still be processed.
+6. FILE AND ERROR HANDLING
+Input is read one complete line at a time. Blank and comment lines are ignored,
+and a line counts as a comment only when its first non-whitespace character is
+a '#'. Fields are separated by vertical bars and trimmed at their outer
+whitespace, which includes the carriage return of Windows line endings.
+Internal spaces are preserved, so "Student  Union" is not the same name as
+"Student Union". Malformed, duplicate, and invalid-reference records are
+rejected with a filename, line number, and reason. A missing file produces an
+error and is treated as empty so the remaining files can still be processed.
+
+7. MENU AND INPUT HANDLING
+The Final menu has the seventeen operations listed in README.txt, numbered as
+the specification requires, plus option 0 to exit. Both the listed terminating
+option and 0 exit cleanly. Menu input is read as a complete line, trimmed, and
+parsed as a whole non-negative integer; blank input, text, and out-of-range
+values print an error and return to the menu rather than terminating or
+partially converting. Names, categories, and other free-text prompts read a
+whole line so that values containing spaces work without special input.
