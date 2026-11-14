@@ -1,41 +1,86 @@
-// ===========================================================================
-// FacilitySearch.cpp -- implementation of the Final-phase facility searches
-// and the category report (FAC-4, FAC-5, RPT-2).
-// Author: Logan Conrad
-//
-// The contracts live in FacilitySearch.h. This file is the part you type.
-// Each function below is a stub so the project compiles and the menu is
-// testable end to end; replace the body, keep the signature.
-// ===========================================================================
 #include "FacilitySearch.h"
-
+#include "DataLoader.h"
+#include <string>
+#include <algorithm>
+#include <cctype>
 #include <iostream>
+#include <iomanip>
 
-// FAC-4 -- see the contract in FacilitySearch.h.
+namespace {
+    std::string lower(std::string up){
+        std::transform(up.begin(), up.end(), up.begin(), [](unsigned char c){ return std::tolower(c);});
+        return up;
+    }
+}
+
 void searchFacilityByName(const std::vector<Facility>& facilities,
                           const std::string& query) {
-    (void)facilities;
-    (void)query;
-    // TODO(logan): trim, reject blank, scan case-insensitively on the
-    // complete name, print every match in file order, then the count.
-    std::cout << "Name search is not implemented yet.\n";
+    std::string trimmed = DataLoader::trim(query);
+    if (trimmed.empty()){
+        std::cout << "Error: Enter a facility name to search." << std::endl;
+        return;
+    }
+    int matched = 0;
+    for (const auto& fac : facilities){
+        if (lower(fac.name) == lower(trimmed)){
+            matched += 1;
+            std::cout << fac.id << " | " << fac.name << " | " << fac.building << " | " << fac.category << std::endl;
+        }
+    }
+    if (matched == 0){
+        std::cout << trimmed << " not found." << std::endl;
+    } else {
+        std::cout << "Match Count: " << matched << std::endl;
+    }
+
 }
 
-// FAC-5 -- see the contract in FacilitySearch.h.
 void searchFacilityByCategory(const std::vector<Facility>& facilities,
                               const std::string& query) {
-    (void)facilities;
-    (void)query;
-    // TODO(logan): trim, reject blank, scan case-insensitively on the
-    // complete category, print every match in file order, then the count.
-    std::cout << "Category search is not implemented yet.\n";
+    std::string trimmed = DataLoader::trim(query);
+    if (trimmed.empty()){
+        std::cout << "Error: Enter a facility category to search." << std::endl;
+        return;
+    }
+    int matched = 0;
+    for (const auto& fac : facilities){
+        if (lower(fac.category) == lower(trimmed)){
+            matched += 1;
+            std::cout << fac.id << " | " << fac.name << " | " << fac.building << " | " << fac.category << std::endl;
+        }
+    }
+    if (matched == 0){
+        std::cout << trimmed << " not found." << std::endl;
+    } else {
+        std::cout << "Match Count: " << matched << std::endl;
+    }
 }
 
-// RPT-2 -- see the contract in FacilitySearch.h.
 void printFacilityCategoryReport(const std::vector<Facility>& facilities) {
-    (void)facilities;
-    // TODO(logan): group ignoring case, keep the first spelling, count,
-    // percentage to one decimal, total, and the empty case without a
-    // division by zero.
-    std::cout << "Facility category report is not implemented yet.\n";
+    if (facilities.empty()){
+        std::cout << "No facilities are available to report." << std::endl;
+        std::cout << "Total facilities: 0" << std::endl;
+        return;
+    }
+
+    std::vector<std::pair<std::string, int>> groups;
+
+    for (const auto& fac : facilities){
+        bool found = false;
+        for (auto& g : groups){
+            if (lower(g.first) == lower(fac.category)){
+                g.second += 1;
+                found = true;
+                break;
+            }
+        }
+        if (!found){
+            groups.push_back({fac.category, 1});
+        }
+    }
+    const double total = static_cast<double>(facilities.size());
+    for (const auto& g : groups){
+        std::cout << g.first << ": " << g.second << " (" << std::fixed << std::setprecision(1) << (g.second * 100.0 / total) << "%)" << std::endl;
+    }
+    std::cout << "Total facilities: " << facilities.size() << std::endl;
 }
