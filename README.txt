@@ -11,6 +11,10 @@ BUILD (UNT CSE CELL / LINUX)
 From the Project2_M1 directory, run:
     g++ -std=c++17 -Wall -Wextra -pedantic -Iinclude src/*.cpp -o campus
 
+If make is installed, the same build is available as:
+    make
+The Makefile uses this exact command line, so either path produces ./campus.
+
 RUN
 Use the supplied data directory:
     ./campus
