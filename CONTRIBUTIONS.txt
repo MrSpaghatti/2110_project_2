@@ -57,14 +57,20 @@ Work completed:
     the root at depth 0) to the DepartmentTree class.
   - Wired the renumbered Final menu options 13, 14, and 15 to those methods and
     recorded rows F18-F20 plus captured transcripts in test_results.txt.
+  - Rebuilt the merged trunk with g++ -std=c++17 -Wall -Wextra -pedantic -Iinclude
+    (exit 0, no warnings) and re-ran postorder, level-order and statistics on the
+    sample, root-only, empty and after-insertion cases.
+  - Pushed the Final tree work on MatthewOjehJr/tree-final and merged it to main
+    at 54c06a6; the CELL transcript in test_results.txt predates these three
+    methods, so a fresh CELL run is still required before submission.
 
 BUILD UNBLOCK NOTE
 Member C briefly filled the declarations in include/CampusGraph.h and
 include/DataLoader.h to produce a runnable build for the M1 test pass. Those
 headers are owned by Members A and B, so the fills were reverted and the
-skeletons restored; Members A and B will type their own declarations. The
-menu shell and options 1-5 in main.cpp were also added to reach a runnable
-menu and remain subject to review by their owners.
+skeletons restored; Members A and B later typed their own declarations in
+their own commits. The menu shell and options 1-5 in main.cpp were also added
+to reach a runnable menu and remain subject to review by their owners.
 
 SHARED WORK
 All members: reading the spec and the rubric, reviewing each other's pull
