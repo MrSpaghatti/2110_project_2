@@ -40,18 +40,23 @@ Work completed:
 
 Member C: Matthew Ojeh Jr. -- MatthewOjehJr
 Modules owned: Department general tree (insertion, case-insensitive search,
-indented hierarchy, preorder traversal); menu options 6, 7, 8, 9;
-testdata/tree/; test_results.txt.
+indented hierarchy, preorder/postorder/level-order traversal, and statistics);
+Final menu options 9-15; testdata/tree/; test_results.txt.
 Work completed:
   - Implemented include/DepartmentTree.h and src/DepartmentTree.cpp: owning
     unique_ptr children with parent pointers, case-insensitive lookup, root
     and parent validation, indented hierarchy display, and preorder traversal.
-  - Added menu options 6 (add), 7 (search), 8 (hierarchy) and 9 (preorder) in
-    src/main.cpp, including skipping the parent prompt while the tree is empty.
+  - Added department add/search/hierarchy/preorder to src/main.cpp, including
+    skipping the parent prompt while the tree is empty.
   - Added testdata/tree/ as five complete four-file data directories:
     unknown-parent, duplicate-name, root-only, empty, and sample.
   - Built the project and ran all nine M1 tests, pasting the exact captured
     output and PASS/FAIL into test_results.txt.
+  - Final phase: added postorder (children before parent, flat sequence),
+    level-order using std::queue, and statistics (total, leaves, height with
+    the root at depth 0) to the DepartmentTree class.
+  - Wired the renumbered Final menu options 13, 14, and 15 to those methods and
+    recorded rows F18-F20 plus captured transcripts in test_results.txt.
 
 BUILD UNBLOCK NOTE
 Member C briefly filled the declarations in include/CampusGraph.h and

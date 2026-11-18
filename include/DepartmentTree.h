@@ -11,6 +11,9 @@ public:
     void search(const std::string& name) const;
     void displayHierarchy() const;
     void preorder() const;
+    void postorder() const;
+    void levelOrder() const;
+    void statistics() const;
     bool empty() const;
 private:
     struct Node {
@@ -22,6 +25,8 @@ private:
     Node* findNode(const std::string& name) const;
     void printIndented(const Node* node, int depth) const;
     void collectPreorder(const Node* node, std::vector<std::string>& out) const;
+    void collectPostorder(const Node* node, std::vector<std::string>& out) const;
+    static int heightOf(const Node* node);
     std::unique_ptr<Node> root_;
 };
 #endif

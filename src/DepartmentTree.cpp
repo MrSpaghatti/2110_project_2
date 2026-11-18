@@ -1,11 +1,18 @@
-// Purpose: Implements department insertion, search, and preorder displays. Author: Matthew Ojeh Jr.
+// Purpose: Implements department insertion, search, and the tree traversals. Author: Matthew Ojeh Jr.
 #include "DepartmentTree.h"
+#include <algorithm>
 #include <cctype>
 #include <iostream>
+#include <queue>
 void DepartmentTree::collectPreorder(const Node* node, std::vector<std::string>& out) const {
     if (!node) return;
     out.push_back(node->name);
     for (const auto& child:node->children) collectPreorder(child.get(),out);
+}
+void DepartmentTree::collectPostorder(const Node* node, std::vector<std::string>& out) const {
+    if (!node) return;
+    for (const auto& child:node->children) collectPostorder(child.get(),out);
+    out.push_back(node->name);
 }
 DepartmentTree::Node* DepartmentTree::findNode(const std::string& name) const {
     std::vector<std::string> unused;
@@ -54,5 +61,45 @@ void DepartmentTree::preorder() const {
     std::vector<std::string> names; collectPreorder(root_.get(),names);
     for(std::size_t i=0;i<names.size();++i) std::cout<<(i?" -> ":"")<<names[i];
     std::cout<<"\n";
+}
+void DepartmentTree::postorder() const {
+    if(!root_) { std::cout<<"No departments are loaded.\n"; return; }
+    std::vector<std::string> names; collectPostorder(root_.get(),names);
+    for(std::size_t i=0;i<names.size();++i) std::cout<<(i?" -> ":"")<<names[i];
+    std::cout<<"\n";
+}
+void DepartmentTree::levelOrder() const {
+    if(!root_) { std::cout<<"No departments are loaded.\n"; return; }
+    std::queue<const Node*> q;
+    q.push(root_.get());
+    bool first=true;
+    while(!q.empty()) {
+        const Node* n=q.front(); q.pop();
+        std::cout<<(first?"":" -> ")<<n->name;
+        first=false;
+        for(const auto& child:n->children) q.push(child.get());
+    }
+    std::cout<<"\n";
+}
+int DepartmentTree::heightOf(const Node* node) {
+    if(!node) return -1;
+    int best=0;
+    for(const auto& child:node->children) best=std::max(best,1+heightOf(child.get()));
+    return best;
+}
+void DepartmentTree::statistics() const {
+    std::size_t total=0, leaves=0;
+    std::queue<const Node*> q;
+    if(root_) q.push(root_.get());
+    while(!q.empty()) {
+        const Node* n=q.front(); q.pop();
+        ++total;
+        if(n->children.empty()) ++leaves;
+        for(const auto& child:n->children) q.push(child.get());
+    }
+    std::cout<<"Total departments: "<<total<<"\n"
+             <<"Leaf departments: "<<leaves<<"\n";
+    if(!root_) std::cout<<"Height: N/A\n";
+    else std::cout<<"Height: "<<heightOf(root_.get())<<"\n";
 }
 bool DepartmentTree::empty() const { return !root_; }
