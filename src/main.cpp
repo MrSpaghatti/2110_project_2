@@ -192,19 +192,16 @@ int main(int argc, char* argv[]) {
                 tree.preorder();
                 break;
             }
-            case 13: {  // OJ -- postorder
-                // TODO(oj): call the postorder method once DepartmentTree declares it.
-                std::cout << "Postorder traversal is not implemented yet.\n";
+            case 13: {  // OJ -- postorder (TREE-7)
+                tree.postorder();
                 break;
             }
-            case 14: {  // OJ -- level-order
-                // TODO(oj): call the level-order method once DepartmentTree declares it.
-                std::cout << "Level-order traversal is not implemented yet.\n";
+            case 14: {  // OJ -- level-order (TREE-7)
+                tree.levelOrder();
                 break;
             }
-            case 15: {  // OJ -- department statistics
-                // TODO(oj): call the statistics method once DepartmentTree declares it.
-                std::cout << "Department statistics are not implemented yet.\n";
+            case 15: {  // OJ -- department statistics (TREE-8)
+                tree.statistics();
                 break;
             }
             case 16: {  // LOGAN -- facility category report (RPT-2)

@@ -399,10 +399,62 @@ F14 | empty data files                              | four empty files          
 F15 | missing data directory                        | nonexistent path            | cannot-open error per file, no crash      | as expected | PASS
 F16 | exit at the listed terminating option and 0   | 18 / 0                      | clean exit, rc 0 both                     | as expected | PASS
 F17 | bad menu input recovery                       | abc, 99                     | invalid-choice message, menu continues     | as expected | PASS
+F18 | postorder traversal, flat sequence            | option 13, sample           | children before parent, siblings in file order, root last | as expected | PASS
+F19 | level-order traversal driven by a queue       | option 14, sample           | all nodes at a depth before the next depth | as expected | PASS
+F20 | statistics: populated, root-only, empty, and  | option 15, sample / root-only / empty / data | 7/4/2; 1/1/0; 0/0/N/A; 8/4/3 after insert | as expected | PASS
+    | after a menu insertion                        |                             |                                           |             |
 
-Options 8, 13, 14, 15 and 17 belong to the other two members' modules and are
-verified in the rows their owners add when those branches merge; every
-operation present in this trunk is covered above.
+Options 8 and 17 belong to Hoang Le's CampusGraph module and are verified in
+the rows he adds when that branch merges; every other operation in this trunk
+is covered above.
+
+TREE FINAL BEHAVIORAL CHECKS (options 13-15)
+Run locally with the README build command (MinGW-W64 g++ 16.1.0); the fixture
+directories are the committed testdata/tree/ cases. Prompts are shown as they
+appeared; the repeated menu block is omitted.
+
+  [option 13, sample]
+    Enter choice: Computer Science -> Electrical Engineering -> College of Engineering -> Mathematics -> Physics -> College of Science -> University
+
+  [option 14, sample]
+    Enter choice: University -> College of Engineering -> College of Science -> Computer Science -> Electrical Engineering -> Mathematics -> Physics
+
+  [option 15, sample]
+    Enter choice: Total departments: 7
+    Leaf departments: 4
+    Height: 2
+
+  [options 12-15, root-only]
+    Enter choice: University
+    Enter choice: University
+    Enter choice: University
+    Enter choice: Total departments: 1
+    Leaf departments: 1
+    Height: 0
+
+  [options 12-15, empty]
+    Enter choice: No departments are loaded.
+    Enter choice: No departments are loaded.
+    Enter choice: No departments are loaded.
+    Enter choice: Total departments: 0
+    Leaf departments: 0
+    Height: N/A
+
+  [option 15 after adding Research under Computer Science in data/]
+    Enter choice: Enter department name: Enter parent department: Department added: Research
+    Enter choice: Total departments: 8
+    Leaf departments: 4
+    Height: 3
+
+  [regression: duplicate-name and unknown-parent fixtures]
+    Warning: departments.txt:4: duplicate department: physics
+    departments.txt: 2 accepted, 1 rejected
+    Warning: departments.txt:3: unknown parent: Nowhere University
+    departments.txt: 1 accepted, 1 rejected
+
+Result: PASS -- options 13-15 and all nine Milestone 1 rows re-run clean
+locally with -Wall -Wextra -pedantic. The CELL transcript below predates these
+three methods; the final CELL run must be repeated after this merge.
 
 -------------------------------------------------------------------
 CELL VERIFICATION (FINAL)
