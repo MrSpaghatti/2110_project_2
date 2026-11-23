@@ -52,6 +52,13 @@ public:
     // Performs a breadth-first traversal from the given building.
     void bfs(const std::string& start) const;
 
+    // Prints the shortest route between two buildings using breadth-first search
+    // and a parent array for route reconstruction.
+    void shortestPath(const std::string& start, const std::string& destination) const;
+
+    // Prints degree-based statistics and the number of connected components.
+    void connectivityReport() const;
+
     // Returns how many buildings and connections exist in the graph.
     std::size_t buildingCount() const;
     std::size_t connectionCount() const;
