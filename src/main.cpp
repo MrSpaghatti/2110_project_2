@@ -158,9 +158,13 @@ int main(int argc, char* argv[]) {
                 break;
             }
             case 8: {  // HOANG -- shortest path (BFS)
-                // TODO(hoang): prompt for start and destination, then call the
-                // shortest-path method once CampusGraph declares it.
-                std::cout << "Shortest path is not implemented yet.\n";
+                // Trim both prompts before dispatching them so blank edges and
+                // accidental surrounding whitespace do not affect lookup.
+                std::string start;
+                if (!readLine("Enter starting building: ", start)) { running = false; break; }
+                std::string destination;
+                if (!readLine("Enter destination building: ", destination)) { running = false; break; }
+                graph.shortestPath(DataLoader::trim(start), DataLoader::trim(destination));
                 break;
             }
             case 9: {  // OJ -- add department
@@ -209,8 +213,9 @@ int main(int argc, char* argv[]) {
                 break;
             }
             case 17: {  // HOANG -- graph connectivity report
-                // TODO(hoang): call the connectivity report once CampusGraph declares it.
-                std::cout << "Graph connectivity report is not implemented yet.\n";
+                // The CampusGraph method owns the totals, degree ties, isolated
+                // buildings, and component calculation; main only dispatches it.
+                graph.connectivityReport();
                 break;
             }
             // Exit: UI-7 specifies option 0, section 6.9 lists the

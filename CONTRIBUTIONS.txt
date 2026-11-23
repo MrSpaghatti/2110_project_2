@@ -21,7 +21,8 @@ Work completed:
 
 Member B: Hoang Trung Le -- lehoangtrung-108
 Modules owned: Campus graph (adjacency list, undirected edges, display,
-degree counts) and BFS reachability; menu options 3, 4, 5; testdata/graph/.
+degree counts, BFS reachability, shortest path and connectivity report);
+menu options 5-8 and 17; testdata/graph/.
 Also owns the graph section of design_document.txt.
 Work completed:
   - Implemented include/CampusGraph.h with the CampusGraph public API and
@@ -37,6 +38,14 @@ Work completed:
   - Updated the graph section in design_document.txt to describe the adjacency
     list model, undirected edge behavior, and BFS logic clearly for the project
     documentation.
+  - Added the Final shortest-path implementation in CampusGraph.cpp using BFS
+    with a parent array, including unknown-building validation, disconnected
+    route detection, canonical names, route reconstruction, and connection count.
+  - Added the Final graph connectivity report with all highest-degree buildings,
+    isolated buildings (or None), total counts, and connected-component counting
+    through BFS.
+  - Wired Final menu options 8 and 17 in main.cpp for start/destination prompts
+    and the graph connectivity report.
 
 Member C: Matthew Ojeh Jr. -- MatthewOjehJr
 Modules owned: Department general tree (insertion, case-insensitive search,
